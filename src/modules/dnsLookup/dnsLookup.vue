@@ -4,7 +4,7 @@ import InputOptions from '@/components/InputOptionsComponent.vue'
 import useThrottle from '@/hooks/useThrottle'
 import { ref } from 'vue'
 import axios from 'axios'
-import { UiSelect, UiButton, UiCard } from 'balm-ui'
+import { UiCard } from 'balm-ui'
 
 const types = ['A', 'AAAA', 'CNAME', 'MX', 'TXT']
 const selectedType = ref('')
@@ -43,7 +43,7 @@ async function performLookup() {
         @update:value="useThrottle($event, handleUpdate)"
       ></Input>
     </div>
-    <balm-card class="result-card" v-if="results" title="DNS Lookup Results">
+    <ui-card class="result-card" v-if="results" title="DNS Lookup Results">
       <template #content>
         <ul>
           <li v-for="(value, key) in results" :key="key">
@@ -51,7 +51,7 @@ async function performLookup() {
           </li>
         </ul>
       </template>
-    </balm-card>
+    </ui-card>
   </div>
 </template>
 
