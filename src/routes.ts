@@ -25,6 +25,11 @@ const routes: Routes = {
         "name": "cURL to Code",
         "image": "curl_to_code_icon.svg"
     },
+    "dnsLookup": {
+        "dir": "dnsLookup",
+        "name": "DNS Lookup",
+        "icon": "dns"
+    },
     "hash_generator": {
         "dir": "HashGenerator",
         "name": "Hash Generator",
