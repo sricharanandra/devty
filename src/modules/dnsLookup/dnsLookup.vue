@@ -32,15 +32,6 @@ async function performLookup() {
 
 <template>
   <div class="dns-lookup">
-    <balm-card class="result-card" v-if="results" title="DNS Lookup Results">
-      <template #content>
-        <ul>
-          <li v-for="(value, key) in results" :key="key">
-            <strong>{{ key }}:</strong> {{ value }}
-          </li>
-        </ul>
-      </template>
-    </balm-card>
     <div class="inputSection">
       <InputOptions @reset="clearInput" @paste="handleUpdate" :copyContent="value" />
       <Input
@@ -52,6 +43,15 @@ async function performLookup() {
         @update:value="useThrottle($event, handleUpdate)"
       ></Input>
     </div>
+    <balm-card class="result-card" v-if="results" title="DNS Lookup Results">
+      <template #content>
+        <ul>
+          <li v-for="(value, key) in results" :key="key">
+            <strong>{{ key }}:</strong> {{ value }}
+          </li>
+        </ul>
+      </template>
+    </balm-card>
   </div>
 </template>
 
@@ -63,25 +63,28 @@ async function performLookup() {
   grid-template-columns: 1fr 1fr;
 }
 
-.inputSection {
+.inputSection,
+.outputSection {
   color: var(--color-text);
   display: flex;
   flex-direction: column;
 }
 
-.inputSection,
-.outputSection {
-  margin-right: 5px;
-  margin-left: 20px;
-}
-
-.hash {
-  width: 100%;
-  margin: 7.5px 0;
-}
-
 .inputSection .inputText {
   flex-grow: 1;
+}
+
+.inputSection {
+  margin-left: 20px;
+}
+.outputSection {
+  margin-right: 5px;
+}
+
+.outputSection .output {
+  flex-grow: 1;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 800px) {
