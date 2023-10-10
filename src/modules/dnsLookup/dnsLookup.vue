@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Input from '@/components/InputComponent.vue'
 import InputOptions from '@/components/InputOptionsComponent.vue'
-import useThrottle from '@/hooks/useThrottle'
 import { ref } from 'vue'
 import axios from 'axios'
 import { UiCard } from 'balm-ui'
@@ -9,10 +8,8 @@ import { UiCard } from 'balm-ui'
 const types = ['A', 'AAAA', 'CNAME', 'MX', 'TXT']
 const selectedType = ref('')
 const results = ref(null)
+const value = ref('')
 
-function clearInput() {
-  value.value = ''
-}
 async function performLookup() {
   try {
     const response = await axios.get(
@@ -28,6 +25,25 @@ async function performLookup() {
     console.error(error)
   }
 }
+
+function clearInput() {
+  value.value = ''
+}
+
+function handleUpdate(newValue: string) {
+  value.value = newValue
+  performLookup()
+}
+
+let timer: ReturnType<typeof setTimeout>
+
+function useThrottles(value: string, func: Function, timeout: number = 100) {
+  clearTimeout(timer)
+
+  timer = setTimeout(() => {
+    func(value)
+  }, timeout)
+}
 </script>
 
 <template>
@@ -36,12 +52,14 @@ async function performLookup() {
       <InputOptions @reset="clearInput" @paste="handleUpdate" :copyContent="value" />
       <Input
         input-type="textarea"
-        placeholder="Enter dns to lookup"
+        placeholder="Enter DNS to lookup"
         class="no-resize inputText"
         label="Input"
-        :value="value"
-        @update:value="useThrottle($event, handleUpdate)"
+        v-model="value"
+        @input="handleUpdate(value)"
+        @keyup.enter="performLookup()"
       ></Input>
+      <button @click="performLookup">Lookup</button>
     </div>
     <ui-card class="result-card" v-if="results" title="DNS Lookup Results">
       <template #content>

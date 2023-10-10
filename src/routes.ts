@@ -26,7 +26,7 @@ const routes: Routes = {
         "image": "curl_to_code_icon.svg"
     },
     "dnsLookup": {
-        "dir": "dnsLookup",
+        "dir": "DnsLookup",
         "name": "DNS Lookup",
         "icon": "dns"
     },
